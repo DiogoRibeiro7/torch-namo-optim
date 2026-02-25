@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "torch-namo-optim"
+version = "0.1.0"
+description = "Production-ready PyTorch implementations of NAMO and NAMO-D optimizers (orthogonalized momentum)."
+authors = ["Diogo Ribeiro <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "torch_namo", from = "src" }]
+homepage = "https://github.com/your-org/torch-namo-optim"
+repository = "https://github.com/your-org/torch-namo-optim"
+keywords = ["pytorch", "optimizer", "namo", "namod", "deep-learning", "orthogonalization"]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+torch = ">=2.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ruff = "^0.6.0"
+mypy = "^1.10.0"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
