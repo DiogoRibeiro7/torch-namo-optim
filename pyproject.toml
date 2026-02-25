@@ -16,7 +16,7 @@ torch = ">=2.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.0.0"
-ruff = "^0.6.0"
+ruff = "^0.15.2"
 mypy = "^1.10.0"
 
 [tool.ruff]
