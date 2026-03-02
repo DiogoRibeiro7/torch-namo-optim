@@ -128,6 +128,8 @@ class NAMO(Optimizer):
             raise ValueError("lr must be > 0.")
         if not (0.0 <= mu1 < 1.0 and 0.0 <= mu2 < 1.0):
             raise ValueError("mu1 and mu2 must be in [0,1).")
+        if mu1 > mu2:
+            raise ValueError("mu1 must be <= mu2.")
         if eps <= 0.0:
             raise ValueError("eps must be > 0.")
         if weight_decay < 0.0:
@@ -246,6 +248,8 @@ class NAMOD(Optimizer):
             raise ValueError("lr must be > 0.")
         if not (0.0 <= mu1 < 1.0 and 0.0 <= mu2 < 1.0):
             raise ValueError("mu1 and mu2 must be in [0,1).")
+        if mu1 > mu2:
+            raise ValueError("mu1 must be <= mu2.")
         if eps <= 0.0:
             raise ValueError("eps must be > 0.")
         if not (0.0 < c <= 1.0):

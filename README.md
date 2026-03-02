@@ -82,6 +82,31 @@ for batch in loader:
   - `newton_schulz` (default): faster, good for large matrices
   - `svd`: exact but slower
 - Internal computations use `stable_dtype` (default `float32`) for numerical stability.
+- The implementation enforces `0 <= mu1 <= mu2 < 1`, matching the paper assumptions.
+
+## Paper Consistency Status
+
+Current repo status toward the article:
+
+- Core NAMO and NAMO-D update equations are implemented.
+- Tests include one-step consistency checks against the paper equations.
+- Paper hyperparameters and command generation are included in `experiments/paper/`.
+
+## Reproduce Commands
+
+Generate paper-aligned command grids:
+
+```bash
+python -m torch_namo.repro.cli --mode all --model all --print-only
+```
+
+Write commands to `experiments/paper/generated/commands.txt`:
+
+```bash
+python -m torch_namo.repro.cli --mode all --model all
+```
+
+See `experiments/paper/README.md` for details and scope notes.
 
 ## License
 
