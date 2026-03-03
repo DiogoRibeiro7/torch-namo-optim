@@ -108,6 +108,34 @@ python -m torch_namo.repro.cli --mode all --model all
 
 See `experiments/paper/README.md` for details and scope notes.
 
+Execute runs directly against a trainer script/repo:
+
+```bash
+python -m torch_namo.repro.cli \
+  --execute \
+  --mode final \
+  --model 124m \
+  --workdir /path/to/trainer-repo \
+  --train-entry "python train.py"
+```
+
+Useful execution controls:
+- `--limit N` to run only the first `N` jobs
+- `--start-index K` to skip the first `K` jobs
+- `--continue-on-error` to keep running after failures
+
+Generate paper artifacts (tables + loss curves) from trainer logs:
+
+```bash
+python -m torch_namo.repro.artifacts \
+  --inputs "/path/to/logs/**/*.csv" "/path/to/logs/**/*.jsonl" \
+  --out-dir experiments/paper/artifacts
+```
+
 ## License
 
 MIT.
+
+## Release
+
+See `RELEASING.md` for the version bump, changelog, and tag-based publish flow.

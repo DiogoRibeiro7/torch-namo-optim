@@ -47,3 +47,37 @@ Generate only explicit paper sweeps for 355M:
 If your trainer entrypoint is not `python train.py`, set:
 
 `python -m torch_namo.repro.cli --train-entry "python path/to/your_train.py"`
+
+Execute runs directly:
+
+`python -m torch_namo.repro.cli --execute --mode final --model 124m --workdir /path/to/trainer-repo --train-entry "python train.py"`
+
+Execution controls:
+
+- `--limit N` run only first `N` jobs
+- `--start-index K` start from job index `K`
+- `--continue-on-error` keep launching jobs after failures
+
+## Artifacts Pipeline
+
+Create fixed-format paper artifacts from run logs (`.csv` or `.jsonl`):
+
+`python -m torch_namo.repro.artifacts --inputs "/path/to/logs/**/*.csv" "/path/to/logs/**/*.jsonl" --out-dir experiments/paper/artifacts`
+
+Expected log fields per row:
+
+- `run_name`
+- `model_size` (`124m` or `355m`)
+- `optimizer` (`adamw`, `muon`, `namo`, `namod`)
+- `split` (`train` or `val`)
+- `step`
+- `loss`
+
+Generated outputs:
+
+- `experiments/paper/artifacts/tables/loss_curves.csv`
+- `experiments/paper/artifacts/tables/final_metrics.csv`
+- `experiments/paper/artifacts/tables/final_metrics_best.csv`
+- `experiments/paper/artifacts/tables/final_metrics_best.tex`
+- `experiments/paper/artifacts/figures/loss_curve_<model>_train.png`
+- `experiments/paper/artifacts/figures/loss_curve_<model>_val.png`

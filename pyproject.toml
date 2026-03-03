@@ -2,12 +2,12 @@
 name = "torch-namo-optim"
 version = "0.1.0"
 description = "Production-ready PyTorch implementations of NAMO and NAMO-D optimizers (orthogonalized momentum)."
-authors = ["Diogo Ribeiro <you@example.com>"]
+authors = ["Diogo Ribeiro <dfr@esmad.ipp.pt>"]
 license = "MIT"
 readme = "README.md"
 packages = [{ include = "torch_namo", from = "src" }]
-homepage = "https://github.com/your-org/torch-namo-optim"
-repository = "https://github.com/your-org/torch-namo-optim"
+homepage = "https://github.com/diogoribeiro7/torch-namo-optim"
+repository = "https://github.com/diogoribeiro7/torch-namo-optim"
 keywords = ["pytorch", "optimizer", "namo", "namod", "deep-learning", "orthogonalization"]
 
 [tool.poetry.dependencies]

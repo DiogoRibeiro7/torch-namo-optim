@@ -117,31 +117,46 @@ def build_runs(*, mode: Literal["final", "sweep", "all"], models: set[ModelSize]
     return runs
 
 
-def format_command(run: RunSpec, *, train_entry: str = "python train.py") -> str:
-    model_cfg = MODEL_CONFIG[run.model]
-    run_name = (
+def run_name(run: RunSpec) -> str:
+    return (
         f"{run.stage}-{run.model}-{run.optimizer}-lr{run.lr}"
         if run.c is None
         else f"{run.stage}-{run.model}-{run.optimizer}-lr{run.lr}-c{run.c}"
     )
 
-    parts = [
-        train_entry,
-        f"--model-size {run.model}",
-        f"--optimizer {run.optimizer}",
-        f"--learning-rate {run.lr}",
-        f"--weight-decay {SHARED['weight_decay']}",
-        f"--context-length {SHARED['context_length']}",
-        f"--micro-batch-size {model_cfg['micro_batch_size']}",
-        f"--grad-accum-steps {model_cfg['grad_accum_steps']}",
-        f"--warmup-steps {SHARED['warmup_steps']}",
-        f"--max-steps {run.steps}",
-        f"--run-name {run_name}",
+
+def run_args(run: RunSpec) -> list[str]:
+    model_cfg = MODEL_CONFIG[run.model]
+    args = [
+        "--model-size",
+        str(run.model),
+        "--optimizer",
+        str(run.optimizer),
+        "--learning-rate",
+        str(run.lr),
+        "--weight-decay",
+        str(SHARED["weight_decay"]),
+        "--context-length",
+        str(SHARED["context_length"]),
+        "--micro-batch-size",
+        str(model_cfg["micro_batch_size"]),
+        "--grad-accum-steps",
+        str(model_cfg["grad_accum_steps"]),
+        "--warmup-steps",
+        str(SHARED["warmup_steps"]),
+        "--max-steps",
+        str(run.steps),
+        "--run-name",
+        run_name(run),
     ]
 
     if run.optimizer in {"namo", "namod"}:
-        parts.extend([f"--mu1 {SHARED['mu1']}", f"--mu2 {SHARED['mu2']}"])
+        args.extend(["--mu1", str(SHARED["mu1"]), "--mu2", str(SHARED["mu2"])])
     if run.optimizer == "namod" and run.c is not None:
-        parts.append(f"--namo-d-c {run.c}")
+        args.extend(["--namo-d-c", str(run.c)])
 
-    return " ".join(parts)
+    return args
+
+
+def format_command(run: RunSpec, *, train_entry: str = "python train.py") -> str:
+    return " ".join([train_entry, *run_args(run)])
