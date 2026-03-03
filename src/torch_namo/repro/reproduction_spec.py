@@ -125,8 +125,9 @@ def run_name(run: RunSpec) -> str:
     )
 
 
-def run_args(run: RunSpec) -> list[str]:
+def run_args(run: RunSpec, *, max_steps_override: int | None = None) -> list[str]:
     model_cfg = MODEL_CONFIG[run.model]
+    max_steps = run.steps if max_steps_override is None else max_steps_override
     args = [
         "--model-size",
         str(run.model),
@@ -145,7 +146,7 @@ def run_args(run: RunSpec) -> list[str]:
         "--warmup-steps",
         str(SHARED["warmup_steps"]),
         "--max-steps",
-        str(run.steps),
+        str(max_steps),
         "--run-name",
         run_name(run),
     ]
@@ -158,5 +159,10 @@ def run_args(run: RunSpec) -> list[str]:
     return args
 
 
-def format_command(run: RunSpec, *, train_entry: str = "python train.py") -> str:
-    return " ".join([train_entry, *run_args(run)])
+def format_command(
+    run: RunSpec,
+    *,
+    train_entry: str = "python train.py",
+    max_steps_override: int | None = None,
+) -> str:
+    return " ".join([train_entry, *run_args(run, max_steps_override=max_steps_override)])

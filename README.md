@@ -123,6 +123,7 @@ Useful execution controls:
 - `--limit N` to run only the first `N` jobs
 - `--start-index K` to skip the first `K` jobs
 - `--continue-on-error` to keep running after failures
+- `--max-steps-override S` to force short smoke runs
 
 Generate paper artifacts (tables + loss curves) from trainer logs:
 

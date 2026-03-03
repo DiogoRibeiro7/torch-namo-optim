@@ -57,6 +57,14 @@ Execution controls:
 - `--limit N` run only first `N` jobs
 - `--start-index K` start from job index `K`
 - `--continue-on-error` keep launching jobs after failures
+- `--max-steps-override S` replace configured step count (useful for smoke runs)
+
+### Local End-to-End Smoke Run
+
+This repo includes a minimal trainer that consumes the repro CLI arguments and writes logs in the
+expected schema:
+
+`python -m torch_namo.repro.cli --execute --mode final --model 124m --limit 1 --max-steps-override 3 --train-entry "python experiments/paper/example_trainer.py --log-dir experiments/paper/logs"`
 
 ## Artifacts Pipeline
 

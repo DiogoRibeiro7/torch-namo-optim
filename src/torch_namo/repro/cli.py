@@ -53,6 +53,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--start-index", type=int, default=0)
     parser.add_argument("--continue-on-error", action="store_true")
+    parser.add_argument("--max-steps-override", type=int, default=None)
     parser.add_argument("--print-only", action="store_true")
     args = parser.parse_args()
 
@@ -62,7 +63,14 @@ def main() -> None:
     if args.limit is not None:
         selected = selected[: args.limit]
 
-    commands = [format_command(run, train_entry=args.train_entry) for run in selected]
+    commands = [
+        format_command(
+            run,
+            train_entry=args.train_entry,
+            max_steps_override=args.max_steps_override,
+        )
+        for run in selected
+    ]
 
     if args.print_only:
         for cmd in commands:
@@ -72,7 +80,10 @@ def main() -> None:
 
     if args.execute:
         train_entry_tokens = _split_train_entry(args.train_entry)
-        exec_commands = [train_entry_tokens + run_args(run) for run in selected]
+        exec_commands = [
+            train_entry_tokens + run_args(run, max_steps_override=args.max_steps_override)
+            for run in selected
+        ]
         exit_code = _execute_runs(
             commands=exec_commands,
             workdir=args.workdir,
